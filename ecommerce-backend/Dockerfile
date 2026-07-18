@@ -2,12 +2,14 @@
 FROM eclipse-temurin:17-jdk-alpine AS build
 WORKDIR /app
 
+RUN apk add --no-cache dos2unix
+
 COPY gradlew gradlew.bat ./
 COPY gradle gradle/
 COPY build.gradle settings.gradle ./
 COPY src src/
 
-RUN chmod +x gradlew && ./gradlew bootJar -x test
+RUN dos2unix gradlew && chmod +x gradlew && ./gradlew bootJar -x test
 
 # Run stage
 FROM eclipse-temurin:17-jre-alpine
