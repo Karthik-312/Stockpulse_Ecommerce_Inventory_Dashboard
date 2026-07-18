@@ -22,6 +22,15 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: false
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+
 stockpulse:
   api:
     base-url: ${STOCKPULSE_API_URL:https://stockpulse-api.onrender.com}

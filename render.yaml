@@ -11,7 +11,7 @@ services:
     plan: free
     rootDir: ecommerce-backend
     dockerfilePath: ./Dockerfile
-    healthCheckPath: /api/products
+    healthCheckPath: /actuator/health
     envVars:
       - key: SPRING_PROFILES_ACTIVE
         value: prod
