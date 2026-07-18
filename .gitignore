@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+
+# Gradle
+.gradle/
+ecommerce-backend/build/
+ecommerce-backend/.gradle/
+
+# Environment files
+.env
+.env.local
+.env.production.local
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# H2 Database files
+*.mv.db
+*.trace.db
+
+# Logs
+*.log
