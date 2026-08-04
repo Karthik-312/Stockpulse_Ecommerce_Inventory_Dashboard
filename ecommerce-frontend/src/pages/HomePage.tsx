@@ -30,16 +30,31 @@ export default function HomePage({ search }: HomePageProps) {
   const [loading, setLoading] = useState(true)
   const [category, setCategory] = useState('All')
   const [error, setError] = useState('')
+  const [slowLoad, setSlowLoad] = useState(false)
   const categoryRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    const slowTimer = setTimeout(() => setSlowLoad(true), 5000)
+
     productApi
       .getAll()
-      .then((res) => setProducts(res.data))
+      .then((res) => {
+        if (Array.isArray(res.data)) {
+          setProducts(res.data)
+        } else {
+          setError(res.data?.message || 'Unexpected response from server.')
+        }
+      })
       .catch(() =>
-        setError('Failed to load products. Make sure StockPulse API is running on port 8080.')
+        setError('Unable to reach the server. It may be starting up — please refresh in a moment.')
       )
-      .finally(() => setLoading(false))
+      .finally(() => {
+        clearTimeout(slowTimer)
+        setLoading(false)
+        setSlowLoad(false)
+      })
+
+    return () => clearTimeout(slowTimer)
   }, [])
 
   const categories = ['All', ...Array.from(new Set(products.map((p) => p.category)))]
@@ -66,6 +81,16 @@ export default function HomePage({ search }: HomePageProps) {
         <div className="flex flex-col items-center gap-3">
           <div className="animate-spin rounded-full h-10 w-10 border-3 border-purple-200 border-t-purple-600" />
           <span className="text-sm text-gray-500">Loading products...</span>
+          {slowLoad && (
+            <div className="mt-2 text-center max-w-xs">
+              <span className="text-xs text-gray-400">
+                The server is waking up — this can take up to 30 seconds on first visit.
+              </span>
+              <div className="mt-2 w-48 h-1 bg-gray-100 rounded-full overflow-hidden mx-auto">
+                <div className="h-full bg-purple-400 rounded-full animate-pulse" style={{ width: '60%' }} />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     )
