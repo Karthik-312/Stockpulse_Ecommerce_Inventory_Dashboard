@@ -27,6 +27,7 @@ spring:
 stockpulse:
   api:
     base-url: ${STOCKPULSE_API_URL:http://localhost:8080}
+    key: ${STOCKPULSE_API_KEY:}
 
 jwt:
   secret: ${JWT_SECRET:stockpulse-ecommerce-jwt-secret-key-that-is-at-least-256-bits-long-for-hs256}

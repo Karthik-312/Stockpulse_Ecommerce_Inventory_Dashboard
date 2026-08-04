@@ -2,6 +2,7 @@ import axios from 'axios'
 
 const api = axios.create({
   baseURL: '/api',
+  timeout: 90_000,
 })
 
 api.interceptors.request.use((config) => {
@@ -13,6 +14,27 @@ api.interceptors.request.use((config) => {
   return config
 })
 
+async function fetchWithRetry<T>(
+  fn: () => Promise<T>,
+  retries = 2,
+  delay = 4000
+): Promise<T> {
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      return await fn()
+    } catch (err: any) {
+      const isRetryable =
+        !err.response || err.response.status === 503 || err.response.status >= 500
+      if (attempt < retries && isRetryable) {
+        await new Promise((r) => setTimeout(r, delay * (attempt + 1)))
+        continue
+      }
+      throw err
+    }
+  }
+  throw new Error('Request failed after retries')
+}
+
 export const authApi = {
   register: (data: { email: string; password: string; firstName: string; lastName: string }) =>
     api.post('/auth/register', data),
@@ -21,8 +43,8 @@ export const authApi = {
 }
 
 export const productApi = {
-  getAll: () => api.get('/products'),
-  getById: (id: number) => api.get(`/products/${id}`),
+  getAll: () => fetchWithRetry(() => api.get('/products')),
+  getById: (id: number) => fetchWithRetry(() => api.get(`/products/${id}`)),
 }
 
 export const cartApi = {
