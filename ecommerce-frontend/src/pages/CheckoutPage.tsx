@@ -23,6 +23,12 @@ export default function CheckoutPage() {
   }, [navigate])
 
   const total = items.reduce((sum, item) => sum + item.subtotal, 0)
+  const totalSavings = items.reduce((sum, item) => {
+    if (item.originalPrice != null && item.originalPrice > item.price) {
+      return sum + (item.originalPrice - item.price) * item.quantity
+    }
+    return sum
+  }, 0)
 
   const placeOrder = async () => {
     setPlacing(true)
@@ -79,9 +85,16 @@ export default function CheckoutPage() {
               <div key={item.id} className="flex justify-between py-4 first:pt-0 last:pb-0">
                 <div>
                   <p className="font-medium text-gray-900">{item.productName}</p>
-                  <p className="text-sm text-gray-400 mt-0.5">
-                    Qty: {item.quantity} &times; ₹{item.price.toFixed(2)}
-                  </p>
+                  <div className="flex items-center gap-2 mt-0.5">
+                    <span className="text-sm text-gray-500">
+                      Qty: {item.quantity} &times; ₹{item.price.toFixed(2)}
+                    </span>
+                    {item.originalPrice != null && item.originalPrice > item.price && (
+                      <span className="text-sm text-gray-400 line-through">
+                        ₹{item.originalPrice.toFixed(2)}
+                      </span>
+                    )}
+                  </div>
                 </div>
                 <p className="font-bold text-gray-900">₹{item.subtotal.toFixed(2)}</p>
               </div>
@@ -95,6 +108,12 @@ export default function CheckoutPage() {
               <span>Subtotal</span>
               <span>₹{total.toFixed(2)}</span>
             </div>
+            {totalSavings > 0 && (
+              <div className="flex justify-between text-emerald-600">
+                <span>You Save</span>
+                <span className="font-medium">-₹{totalSavings.toFixed(2)}</span>
+              </div>
+            )}
             <div className="flex justify-between text-gray-600">
               <span>Shipping</span>
               <span className="text-green-600 font-medium">Free</span>

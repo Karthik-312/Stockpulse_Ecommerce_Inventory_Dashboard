@@ -119,8 +119,13 @@ export default function OrdersPage() {
                         <tr key={item.id}>
                           <td className="py-3 font-medium text-gray-900">{item.productName}</td>
                           <td className="py-3 text-center text-gray-600">{item.quantity}</td>
-                          <td className="py-3 text-right text-gray-600">
-                            ₹{item.price.toFixed(2)}
+                          <td className="py-3 text-right">
+                            <span className="text-gray-700">₹{item.price.toFixed(2)}</span>
+                            {item.originalPrice != null && item.originalPrice > item.price && (
+                              <span className="block text-xs text-gray-400 line-through">
+                                ₹{item.originalPrice.toFixed(2)}
+                              </span>
+                            )}
                           </td>
                           <td className="py-3 text-right font-semibold text-gray-900">
                             ₹{item.subtotal.toFixed(2)}

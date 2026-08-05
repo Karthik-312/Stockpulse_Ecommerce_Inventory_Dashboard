@@ -57,6 +57,7 @@ public class OrderService {
             orderItem.setProductName(cartItem.productName());
             orderItem.setQuantity(cartItem.quantity());
             orderItem.setPrice(cartItem.price());
+            orderItem.setOriginalPrice(cartItem.originalPrice());
             order.addItem(orderItem);
             total = total.add(cartItem.subtotal());
 
@@ -94,6 +95,7 @@ public class OrderService {
                         item.getProductName(),
                         item.getQuantity(),
                         item.getPrice(),
+                        item.getOriginalPrice(),
                         item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()))
                 )).toList();
 

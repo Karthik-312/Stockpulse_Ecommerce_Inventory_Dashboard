@@ -43,6 +43,12 @@ export default function CartPage() {
 
   const total = items.reduce((sum, item) => sum + item.subtotal, 0)
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0)
+  const totalSavings = items.reduce((sum, item) => {
+    if (item.originalPrice != null && item.originalPrice > item.price) {
+      return sum + (item.originalPrice - item.price) * item.quantity
+    }
+    return sum
+  }, 0)
 
   if (loading) {
     return (
@@ -87,9 +93,21 @@ export default function CartPage() {
                     <h3 className="font-semibold text-gray-900 text-lg truncate">
                       {item.productName}
                     </h3>
-                    <p className="text-gray-400 text-sm mt-1">
-                      ₹{item.price.toFixed(2)} each
-                    </p>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-gray-700 text-sm font-medium">
+                        ₹{item.price.toFixed(2)} each
+                      </span>
+                      {item.originalPrice != null && item.originalPrice > item.price && (
+                        <>
+                          <span className="text-gray-400 text-sm line-through">
+                            ₹{item.originalPrice.toFixed(2)}
+                          </span>
+                          <span className="text-[10px] font-bold text-white bg-emerald-500 px-1.5 py-0.5 rounded-full">
+                            {Math.round(((item.originalPrice - item.price) / item.originalPrice) * 100)}% OFF
+                          </span>
+                        </>
+                      )}
+                    </div>
                   </div>
 
                   <div className="flex items-center gap-4 sm:gap-6">
@@ -136,6 +154,12 @@ export default function CartPage() {
                   <span>Subtotal ({totalItems} items)</span>
                   <span>₹{total.toFixed(2)}</span>
                 </div>
+                {totalSavings > 0 && (
+                  <div className="flex justify-between text-emerald-600">
+                    <span>You Save</span>
+                    <span className="font-medium">-₹{totalSavings.toFixed(2)}</span>
+                  </div>
+                )}
                 <div className="flex justify-between text-gray-600">
                   <span>Shipping</span>
                   <span className="text-green-600 font-medium">Free</span>
