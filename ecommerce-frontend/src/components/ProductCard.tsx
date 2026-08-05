@@ -52,9 +52,25 @@ export default function ProductCard({ product }: { product: Product }) {
           </h3>
           <div className="flex items-center justify-between mt-2.5">
             {product.price != null && product.price > 0 ? (
-              <span className="text-base font-bold text-gray-900">
-                ₹{product.price.toFixed(2)}
-              </span>
+              product.discountPercentage > 0 && product.finalPrice != null ? (
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-base font-bold text-gray-900">
+                      ₹{product.finalPrice.toFixed(2)}
+                    </span>
+                    <span className="text-[10px] font-bold text-white bg-emerald-500 px-1.5 py-0.5 rounded-full">
+                      {product.discountPercentage}% OFF
+                    </span>
+                  </div>
+                  <span className="text-xs text-gray-400 line-through">
+                    ₹{product.price.toFixed(2)}
+                  </span>
+                </div>
+              ) : (
+                <span className="text-base font-bold text-gray-900">
+                  ₹{product.price.toFixed(2)}
+                </span>
+              )
             ) : (
               <span className="text-xs font-medium text-gray-400 italic">
                 Price not set
