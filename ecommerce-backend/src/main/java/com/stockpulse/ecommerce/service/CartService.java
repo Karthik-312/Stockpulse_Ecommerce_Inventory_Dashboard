@@ -46,18 +46,23 @@ public class CartService {
         var existing = cartItemRepository.findByCustomerAndInventoryItemId(
                 customer, request.inventoryItemId());
 
+        BigDecimal sellingPrice = product.finalPrice() != null ? product.finalPrice() : product.price();
+        BigDecimal mrp = product.price();
+
         CartItem cartItem;
         if (existing.isPresent()) {
             cartItem = existing.get();
             cartItem.setQuantity(cartItem.getQuantity() + request.quantity());
-            cartItem.setPrice(product.price());
+            cartItem.setPrice(sellingPrice);
+            cartItem.setOriginalPrice(mrp);
         } else {
             cartItem = new CartItem();
             cartItem.setCustomer(customer);
             cartItem.setInventoryItemId(request.inventoryItemId());
             cartItem.setProductName(product.name());
             cartItem.setQuantity(request.quantity());
-            cartItem.setPrice(product.price());
+            cartItem.setPrice(sellingPrice);
+            cartItem.setOriginalPrice(mrp);
         }
 
         return toResponse(cartItemRepository.save(cartItem));
@@ -98,6 +103,7 @@ public class CartService {
                 item.getProductName(),
                 item.getQuantity(),
                 item.getPrice(),
+                item.getOriginalPrice(),
                 item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()))
         );
     }

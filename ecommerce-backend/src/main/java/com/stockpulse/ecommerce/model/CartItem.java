@@ -26,6 +26,9 @@ public class CartItem {
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
+    @Column(precision = 10, scale = 2)
+    private BigDecimal originalPrice;
+
     public CartItem() {}
 
     public Long getId() { return id; }
@@ -40,4 +43,6 @@ public class CartItem {
     public void setQuantity(int quantity) { this.quantity = quantity; }
     public BigDecimal getPrice() { return price; }
     public void setPrice(BigDecimal price) { this.price = price; }
+    public BigDecimal getOriginalPrice() { return originalPrice; }
+    public void setOriginalPrice(BigDecimal originalPrice) { this.originalPrice = originalPrice; }
 }
