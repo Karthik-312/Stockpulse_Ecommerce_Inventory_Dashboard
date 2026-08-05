@@ -8,5 +8,7 @@ public record InventoryItemDTO(
     int currentStock,
     int minThreshold,
     String status,
-    Double price
+    Double price,
+    Double discountPercentage,
+    Double finalPrice
 ) {}

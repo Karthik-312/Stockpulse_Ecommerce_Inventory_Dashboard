@@ -10,5 +10,7 @@ public record ProductDTO(
     int currentStock,
     String status,
     BigDecimal price,
+    BigDecimal finalPrice,
+    double discountPercentage,
     boolean inStock
 ) {}

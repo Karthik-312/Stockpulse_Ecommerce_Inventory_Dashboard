@@ -31,10 +31,12 @@ public class ProductService {
                 && !status.equals("OUT_OF_STOCK") && !status.equals("DISCONTINUED");
 
         BigDecimal price = item.price() != null ? BigDecimal.valueOf(item.price()) : null;
+        BigDecimal finalPrice = item.finalPrice() != null ? BigDecimal.valueOf(item.finalPrice()) : price;
+        double discountPct = item.discountPercentage() != null ? item.discountPercentage() : 0.0;
 
         return new ProductDTO(
                 item.id(), item.name(), item.sku(), item.category(),
-                item.currentStock(), item.status(), price, inStock
+                item.currentStock(), item.status(), price, finalPrice, discountPct, inStock
         );
     }
 }

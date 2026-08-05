@@ -86,11 +86,33 @@ export default function ProductDetailPage() {
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
               <p className="text-gray-400 mb-6">SKU: {product.sku}</p>
 
-              <div className="text-4xl font-bold text-gray-900 mb-8">
-                {product.price != null && product.price > 0
-                  ? `₹${product.price.toFixed(2)}`
-                  : <span className="text-lg text-gray-400 italic font-medium">Contact for price</span>
-                }
+              <div className="mb-8">
+                {product.price != null && product.price > 0 ? (
+                  product.discountPercentage > 0 && product.finalPrice != null ? (
+                    <div className="flex flex-col gap-1">
+                      <div className="flex items-center gap-3">
+                        <span className="text-4xl font-bold text-gray-900">
+                          ₹{product.finalPrice.toFixed(2)}
+                        </span>
+                        <span className="text-sm font-bold text-white bg-emerald-500 px-3 py-1 rounded-full">
+                          {product.discountPercentage}% OFF
+                        </span>
+                      </div>
+                      <span className="text-lg text-gray-400 line-through">
+                        MRP: ₹{product.price.toFixed(2)}
+                      </span>
+                      <span className="text-sm text-emerald-600 font-medium">
+                        You save ₹{(product.price - product.finalPrice).toFixed(2)}
+                      </span>
+                    </div>
+                  ) : (
+                    <span className="text-4xl font-bold text-gray-900">
+                      ₹{product.price.toFixed(2)}
+                    </span>
+                  )
+                ) : (
+                  <span className="text-lg text-gray-400 italic font-medium">Contact for price</span>
+                )}
               </div>
 
               <div className="grid grid-cols-2 gap-4 mb-8">
@@ -112,7 +134,7 @@ export default function ProductDetailPage() {
                 </div>
               </div>
 
-              {product.inStock && product.price != null && product.price > 0 && (
+              {product.inStock && ((product.finalPrice != null && product.finalPrice > 0) || (product.price != null && product.price > 0)) && (
                 <div className="space-y-4">
                   <div className="flex items-center gap-4">
                     <span className="text-gray-700 font-medium">Quantity:</span>
@@ -145,7 +167,7 @@ export default function ProductDetailPage() {
                     ) : (
                       <>
                         <ShoppingCart className="h-5 w-5" />
-                        Add to Cart &mdash; ₹{(product.price * quantity).toFixed(2)}
+                        Add to Cart &mdash; ₹{((product.finalPrice ?? product.price ?? 0) * quantity).toFixed(2)}
                       </>
                     )}
                   </button>

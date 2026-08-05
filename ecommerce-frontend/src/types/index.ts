@@ -6,6 +6,8 @@ export interface Product {
   currentStock: number
   status: string
   price: number | null
+  finalPrice: number | null
+  discountPercentage: number
   inStock: boolean
 }
 
