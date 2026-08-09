@@ -37,6 +37,7 @@ export default function CheckoutPage() {
       setSuccess(true)
       toast.success('Order placed successfully!')
       window.dispatchEvent(new Event('cart-updated'))
+      window.dispatchEvent(new Event('order-placed'))
       setTimeout(() => navigate('/orders'), 2500)
     } catch (err: unknown) {
       const message =
