@@ -31,7 +31,14 @@ export default function HomePage({ search }: HomePageProps) {
   const [category, setCategory] = useState('All')
   const [error, setError] = useState('')
   const [slowLoad, setSlowLoad] = useState(false)
+  const [refreshKey, setRefreshKey] = useState(0)
   const categoryRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const onOrderPlaced = () => setRefreshKey((k) => k + 1)
+    window.addEventListener('order-placed', onOrderPlaced)
+    return () => window.removeEventListener('order-placed', onOrderPlaced)
+  }, [])
 
   useEffect(() => {
     const slowTimer = setTimeout(() => setSlowLoad(true), 5000)
@@ -55,7 +62,7 @@ export default function HomePage({ search }: HomePageProps) {
       })
 
     return () => clearTimeout(slowTimer)
-  }, [])
+  }, [refreshKey])
 
   const categories = ['All', ...Array.from(new Set(products.map((p) => p.category)))]
 
