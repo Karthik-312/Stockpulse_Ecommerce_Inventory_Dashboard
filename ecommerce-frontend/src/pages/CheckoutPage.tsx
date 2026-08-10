@@ -53,7 +53,7 @@ export default function CheckoutPage() {
   if (loading) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-purple-200 border-t-purple-600" />
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-purple-200 dark:border-purple-900 border-t-purple-600" />
       </div>
     )
   }
@@ -62,11 +62,11 @@ export default function CheckoutPage() {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="text-center animate-in fade-in">
-          <div className="bg-green-100 rounded-full p-5 inline-block mb-6">
-            <Check className="h-14 w-14 text-green-600" />
+          <div className="bg-green-100 dark:bg-green-900 rounded-full p-5 inline-block mb-6">
+            <Check className="h-14 w-14 text-green-600 dark:text-green-400" />
           </div>
-          <h2 className="text-3xl font-bold text-gray-900 mb-3">Order Confirmed!</h2>
-          <p className="text-gray-500 text-lg">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-3">Order Confirmed!</h2>
+          <p className="text-gray-500 dark:text-gray-400 text-lg">
             Thank you for your purchase. Redirecting to orders...
           </p>
         </div>
@@ -75,51 +75,51 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-200">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Checkout</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-8">Checkout</h1>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">Order Items</h2>
-          <div className="divide-y divide-gray-100">
+        <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 p-6 mb-6 transition-colors duration-200">
+          <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100 mb-4">Order Items</h2>
+          <div className="divide-y divide-gray-100 dark:divide-gray-800">
             {items.map((item) => (
               <div key={item.id} className="flex justify-between py-4 first:pt-0 last:pb-0">
                 <div>
-                  <p className="font-medium text-gray-900">{item.productName}</p>
+                  <p className="font-medium text-gray-900 dark:text-gray-100">{item.productName}</p>
                   <div className="flex items-center gap-2 mt-0.5">
-                    <span className="text-sm text-gray-500">
+                    <span className="text-sm text-gray-500 dark:text-gray-400">
                       Qty: {item.quantity} &times; ₹{item.price.toFixed(2)}
                     </span>
                     {item.originalPrice != null && item.originalPrice > item.price && (
-                      <span className="text-sm text-gray-400 line-through">
+                      <span className="text-sm text-gray-400 dark:text-gray-500 line-through">
                         ₹{item.originalPrice.toFixed(2)}
                       </span>
                     )}
                   </div>
                 </div>
-                <p className="font-bold text-gray-900">₹{item.subtotal.toFixed(2)}</p>
+                <p className="font-bold text-gray-900 dark:text-gray-100">₹{item.subtotal.toFixed(2)}</p>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+        <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 p-6 transition-colors duration-200">
           <div className="space-y-3 mb-6">
-            <div className="flex justify-between text-gray-600">
+            <div className="flex justify-between text-gray-600 dark:text-gray-400">
               <span>Subtotal</span>
               <span>₹{total.toFixed(2)}</span>
             </div>
             {totalSavings > 0 && (
-              <div className="flex justify-between text-emerald-600">
+              <div className="flex justify-between text-emerald-600 dark:text-emerald-400">
                 <span>You Save</span>
                 <span className="font-medium">-₹{totalSavings.toFixed(2)}</span>
               </div>
             )}
-            <div className="flex justify-between text-gray-600">
+            <div className="flex justify-between text-gray-600 dark:text-gray-400">
               <span>Shipping</span>
-              <span className="text-green-600 font-medium">Free</span>
+              <span className="text-green-600 dark:text-green-400 font-medium">Free</span>
             </div>
-            <div className="border-t border-gray-100 pt-3 flex justify-between text-xl font-bold text-gray-900">
+            <div className="border-t border-gray-100 dark:border-gray-800 pt-3 flex justify-between text-xl font-bold text-gray-900 dark:text-gray-100">
               <span>Total</span>
               <span>₹{total.toFixed(2)}</span>
             </div>
@@ -140,7 +140,7 @@ export default function CheckoutPage() {
             )}
           </button>
 
-          <p className="text-center text-sm text-gray-400 mt-4">
+          <p className="text-center text-sm text-gray-400 dark:text-gray-500 mt-4">
             Stock will be adjusted automatically via StockPulse API
           </p>
         </div>
