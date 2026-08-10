@@ -2,19 +2,30 @@ import { useState, useEffect, useRef } from 'react'
 import { productApi } from '../api'
 import type { Product } from '../types'
 import ProductCard from '../components/ProductCard'
+import { mapCategory } from '../utils/categoryMap'
 import { ChevronLeft, ChevronRight, Zap, TrendingUp, Package } from 'lucide-react'
 
 const categoryIcons: Record<string, string> = {
   Electronics: '💻',
   Clothing: '👕',
-  Food: '🍕',
+  'Food & Beverages': '🍕',
   Books: '📚',
   Home: '🏠',
   Sports: '⚽',
   Toys: '🧸',
   Health: '💊',
-  Beauty: '💄',
   Automotive: '🚗',
+  Snacks: '🍪',
+  'Fruits & Vegetables': '🥬',
+  Groceries: '🛒',
+  Beverages: '🥤',
+  Dairy: '🥛',
+  Bakery: '🍞',
+  'Personal Care': '🧴',
+  Household: '🏡',
+  'Office Supplies': '📎',
+  Furniture: '🪑',
+  General: '📦',
 }
 
 function getCategoryIcon(category: string): string {
@@ -64,11 +75,11 @@ export default function HomePage({ search }: HomePageProps) {
     return () => clearTimeout(slowTimer)
   }, [refreshKey])
 
-  const categories = ['All', ...Array.from(new Set(products.map((p) => p.category)))]
+  const categories = ['All', ...Array.from(new Set(products.map((p) => mapCategory(p.category))))]
 
   const filtered = products.filter((p) => {
     const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase())
-    const matchesCategory = category === 'All' || p.category === category
+    const matchesCategory = category === 'All' || mapCategory(p.category) === category
     return matchesSearch && matchesCategory
   })
 
@@ -86,14 +97,14 @@ export default function HomePage({ search }: HomePageProps) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="animate-spin rounded-full h-10 w-10 border-3 border-purple-200 border-t-purple-600" />
-          <span className="text-sm text-gray-500">Loading products...</span>
+          <div className="animate-spin rounded-full h-10 w-10 border-3 border-purple-200 dark:border-purple-900 border-t-purple-600" />
+          <span className="text-sm text-gray-500 dark:text-gray-400">Loading products...</span>
           {slowLoad && (
             <div className="mt-2 text-center max-w-xs">
-              <span className="text-xs text-gray-400">
+              <span className="text-xs text-gray-400 dark:text-gray-500">
                 The server is waking up — this can take up to 30 seconds on first visit.
               </span>
-              <div className="mt-2 w-48 h-1 bg-gray-100 rounded-full overflow-hidden mx-auto">
+              <div className="mt-2 w-48 h-1 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden mx-auto">
                 <div className="h-full bg-purple-400 rounded-full animate-pulse" style={{ width: '60%' }} />
               </div>
             </div>
@@ -104,15 +115,15 @@ export default function HomePage({ search }: HomePageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white dark:bg-gray-950 transition-colors duration-200">
       {/* Category Scroll Bar */}
       {!error && products.length > 0 && (
-        <div className="border-b border-gray-100 bg-white">
+        <div className="border-b border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950 transition-colors duration-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="relative flex items-center py-4">
               <button
                 onClick={() => scrollCategories('left')}
-                className="absolute left-0 z-10 w-8 h-8 bg-white shadow-md rounded-full flex items-center justify-center text-gray-600 hover:text-purple-600 transition-colors border border-gray-100 hidden sm:flex"
+                className="absolute left-0 z-10 w-8 h-8 bg-white dark:bg-gray-800 shadow-md rounded-full flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors border border-gray-100 dark:border-gray-700 hidden sm:flex"
               >
                 <ChevronLeft className="h-4 w-4" />
               </button>
@@ -128,14 +139,14 @@ export default function HomePage({ search }: HomePageProps) {
                     onClick={() => setCategory(cat)}
                     className={`flex flex-col items-center gap-1.5 px-4 py-2 rounded-xl transition-all shrink-0 min-w-[80px] ${
                       category === cat
-                        ? 'bg-purple-50 border-2 border-purple-500 shadow-sm'
-                        : 'bg-gray-50 border-2 border-transparent hover:bg-purple-50 hover:border-purple-200'
+                        ? 'bg-purple-50 dark:bg-purple-950 border-2 border-purple-500 shadow-sm'
+                        : 'bg-gray-50 dark:bg-gray-800 border-2 border-transparent hover:bg-purple-50 dark:hover:bg-purple-950 hover:border-purple-200 dark:hover:border-purple-800'
                     }`}
                   >
                     <span className="text-xl">{getCategoryIcon(cat)}</span>
                     <span
                       className={`text-xs font-medium whitespace-nowrap ${
-                        category === cat ? 'text-purple-700' : 'text-gray-600'
+                        category === cat ? 'text-purple-700 dark:text-purple-300' : 'text-gray-600 dark:text-gray-400'
                       }`}
                     >
                       {cat}
@@ -146,7 +157,7 @@ export default function HomePage({ search }: HomePageProps) {
 
               <button
                 onClick={() => scrollCategories('right')}
-                className="absolute right-0 z-10 w-8 h-8 bg-white shadow-md rounded-full flex items-center justify-center text-gray-600 hover:text-purple-600 transition-colors border border-gray-100 hidden sm:flex"
+                className="absolute right-0 z-10 w-8 h-8 bg-white dark:bg-gray-800 shadow-md rounded-full flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 transition-colors border border-gray-100 dark:border-gray-700 hidden sm:flex"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
@@ -192,7 +203,7 @@ export default function HomePage({ search }: HomePageProps) {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-600 px-6 py-4 rounded-xl mb-6 text-center text-sm font-medium">
+          <div className="bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 px-6 py-4 rounded-xl mb-6 text-center text-sm font-medium">
             {error}
           </div>
         )}
@@ -200,9 +211,9 @@ export default function HomePage({ search }: HomePageProps) {
         {/* Section Title */}
         {!error && filtered.length > 0 && (
           <div className="flex items-center justify-between mb-5">
-            <h2 className="text-lg font-bold text-gray-900">
+            <h2 className="text-lg font-bold text-gray-900 dark:text-gray-100">
               {category === 'All' ? 'All Products' : category}
-              <span className="ml-2 text-sm font-normal text-gray-400">
+              <span className="ml-2 text-sm font-normal text-gray-400 dark:text-gray-500">
                 ({filtered.length} {filtered.length === 1 ? 'item' : 'items'})
               </span>
             </h2>
@@ -219,8 +230,8 @@ export default function HomePage({ search }: HomePageProps) {
         {filtered.length === 0 && !error && (
           <div className="text-center py-20">
             <div className="text-4xl mb-4">🔍</div>
-            <p className="text-gray-500 text-base font-medium">No products found</p>
-            <p className="text-gray-400 text-sm mt-1">Try a different search or category</p>
+            <p className="text-gray-500 dark:text-gray-400 text-base font-medium">No products found</p>
+            <p className="text-gray-400 dark:text-gray-500 text-sm mt-1">Try a different search or category</p>
           </div>
         )}
       </div>
