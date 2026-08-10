@@ -53,7 +53,7 @@ export default function CartPage() {
   if (loading) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-4 border-purple-200 border-t-purple-600" />
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-purple-200 dark:border-purple-900 border-t-purple-600" />
       </div>
     )
   }
@@ -62,9 +62,9 @@ export default function CartPage() {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="text-center">
-          <ShoppingBag className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Your cart is empty</h2>
-          <p className="text-gray-500 mb-6">Start shopping to add items to your cart</p>
+          <ShoppingBag className="h-16 w-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Your cart is empty</h2>
+          <p className="text-gray-500 dark:text-gray-400 mb-6">Start shopping to add items to your cart</p>
           <Link
             to="/"
             className="bg-purple-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-purple-700 transition-colors inline-flex items-center gap-2"
@@ -77,29 +77,29 @@ export default function CartPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">Shopping Cart</h1>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-8">Shopping Cart</h1>
 
         <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-4">
             {items.map((item) => (
               <div
                 key={item.id}
-                className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 sm:p-6"
+                className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 p-5 sm:p-6 transition-colors duration-200"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-gray-900 text-lg truncate">
+                    <h3 className="font-semibold text-gray-900 dark:text-gray-100 text-lg truncate">
                       {item.productName}
                     </h3>
                     <div className="flex items-center gap-2 mt-1">
-                      <span className="text-gray-700 text-sm font-medium">
+                      <span className="text-gray-700 dark:text-gray-300 text-sm font-medium">
                         ₹{item.price.toFixed(2)} each
                       </span>
                       {item.originalPrice != null && item.originalPrice > item.price && (
                         <>
-                          <span className="text-gray-400 text-sm line-through">
+                          <span className="text-gray-400 dark:text-gray-500 text-sm line-through">
                             ₹{item.originalPrice.toFixed(2)}
                           </span>
                           <span className="text-[10px] font-bold text-white bg-emerald-500 px-1.5 py-0.5 rounded-full">
@@ -111,31 +111,31 @@ export default function CartPage() {
                   </div>
 
                   <div className="flex items-center gap-4 sm:gap-6">
-                    <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden">
+                    <div className="flex items-center border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                        className="p-2 hover:bg-gray-100 transition-colors"
+                        className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-300"
                       >
                         <Minus className="h-4 w-4" />
                       </button>
-                      <span className="px-4 py-2 font-semibold min-w-[3rem] text-center border-x border-gray-200">
+                      <span className="px-4 py-2 font-semibold min-w-[3rem] text-center border-x border-gray-200 dark:border-gray-700 text-gray-900 dark:text-gray-100">
                         {item.quantity}
                       </span>
                       <button
                         onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                        className="p-2 hover:bg-gray-100 transition-colors"
+                        className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-700 dark:text-gray-300"
                       >
                         <Plus className="h-4 w-4" />
                       </button>
                     </div>
 
-                    <span className="font-bold text-gray-900 min-w-[5rem] text-right">
+                    <span className="font-bold text-gray-900 dark:text-gray-100 min-w-[5rem] text-right">
                       ₹{item.subtotal.toFixed(2)}
                     </span>
 
                     <button
                       onClick={() => removeItem(item.id)}
-                      className="text-gray-300 hover:text-red-500 transition-colors"
+                      className="text-gray-300 dark:text-gray-600 hover:text-red-500 dark:hover:text-red-400 transition-colors"
                     >
                       <Trash2 className="h-5 w-5" />
                     </button>
@@ -147,24 +147,24 @@ export default function CartPage() {
 
           {/* Order Summary Sidebar */}
           <div>
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sticky top-24">
-              <h2 className="text-xl font-bold text-gray-900 mb-6">Order Summary</h2>
+            <div className="bg-white dark:bg-gray-900 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 p-6 sticky top-24 transition-colors duration-200">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-6">Order Summary</h2>
               <div className="space-y-3 mb-6">
-                <div className="flex justify-between text-gray-600">
+                <div className="flex justify-between text-gray-600 dark:text-gray-400">
                   <span>Subtotal ({totalItems} items)</span>
                   <span>₹{total.toFixed(2)}</span>
                 </div>
                 {totalSavings > 0 && (
-                  <div className="flex justify-between text-emerald-600">
+                  <div className="flex justify-between text-emerald-600 dark:text-emerald-400">
                     <span>You Save</span>
                     <span className="font-medium">-₹{totalSavings.toFixed(2)}</span>
                   </div>
                 )}
-                <div className="flex justify-between text-gray-600">
+                <div className="flex justify-between text-gray-600 dark:text-gray-400">
                   <span>Shipping</span>
-                  <span className="text-green-600 font-medium">Free</span>
+                  <span className="text-green-600 dark:text-green-400 font-medium">Free</span>
                 </div>
-                <div className="border-t border-gray-100 pt-3 flex justify-between text-lg font-bold text-gray-900">
+                <div className="border-t border-gray-100 dark:border-gray-800 pt-3 flex justify-between text-lg font-bold text-gray-900 dark:text-gray-100">
                   <span>Total</span>
                   <span>₹{total.toFixed(2)}</span>
                 </div>

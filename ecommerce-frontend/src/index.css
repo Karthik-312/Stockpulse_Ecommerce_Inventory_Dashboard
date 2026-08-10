@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
