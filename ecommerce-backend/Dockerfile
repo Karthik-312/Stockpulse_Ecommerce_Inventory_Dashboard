@@ -18,4 +18,4 @@ WORKDIR /app
 COPY --from=build /app/build/libs/ecommerce-backend-1.0.0.jar app.jar
 
 EXPOSE 9090
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-Xmx400m", "-Xms200m", "-XX:+UseSerialGC", "-jar", "app.jar"]
