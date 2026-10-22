@@ -10,6 +10,9 @@ build/
 ecommerce-backend/build/
 ecommerce-backend/.gradle/
 
+# Eclipse / VS Code Java compiled output
+bin/
+
 # Environment files
 .env
 .env.local
