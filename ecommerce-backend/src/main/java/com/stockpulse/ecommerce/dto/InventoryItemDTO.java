@@ -10,5 +10,6 @@ public record InventoryItemDTO(
     String status,
     Double price,
     Double discountPercentage,
-    Double finalPrice
+    Double finalPrice,
+    String imageUrl
 ) {}

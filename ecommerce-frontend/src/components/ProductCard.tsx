@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import type { Product } from '../types'
 import { ShoppingBag } from 'lucide-react'
@@ -32,13 +33,26 @@ export function getCategoryGradient(category: string): string {
 export default function ProductCard({ product }: { product: Product }) {
   const displayCategory = mapCategory(product.category)
   const gradient = getCategoryGradient(product.category)
+  // Products without a photo, or whose hosted image 404s, keep the category gradient.
+  const [imageBroken, setImageBroken] = useState(false)
+  const showImage = Boolean(product.imageUrl) && !imageBroken
 
   return (
     <Link to={`/products/${product.id}`} className="group">
       <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 overflow-hidden hover:shadow-lg dark:hover:shadow-gray-900/50 hover:border-purple-100 dark:hover:border-purple-900 transition-all duration-200">
         {/* Product Image Area */}
-        <div className={`h-32 sm:h-36 bg-gradient-to-br ${gradient} flex items-center justify-center relative`}>
-          <ShoppingBag className="h-10 w-10 text-white/80 group-hover:scale-110 transition-transform duration-200" />
+        <div className={`h-32 sm:h-36 flex items-center justify-center relative ${showImage ? 'bg-white dark:bg-gray-800' : `bg-gradient-to-br ${gradient}`}`}>
+          {showImage ? (
+            <img
+              src={product.imageUrl!}
+              alt={product.name}
+              loading="lazy"
+              onError={() => setImageBroken(true)}
+              className="h-full w-full object-contain p-2 group-hover:scale-105 transition-transform duration-200"
+            />
+          ) : (
+            <ShoppingBag className="h-10 w-10 text-white/80 group-hover:scale-110 transition-transform duration-200" />
+          )}
           {!product.inStock && (
             <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
               <span className="bg-red-500 text-white px-2 py-0.5 rounded-full text-xs font-semibold">

@@ -9,6 +9,7 @@ export interface Product {
   finalPrice: number | null
   discountPercentage: number
   inStock: boolean
+  imageUrl?: string | null
 }
 
 export interface CartItem {
