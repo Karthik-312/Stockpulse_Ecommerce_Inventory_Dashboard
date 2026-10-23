@@ -36,7 +36,8 @@ public class ProductService {
 
         return new ProductDTO(
                 item.id(), item.name(), item.sku(), item.category(),
-                item.currentStock(), item.status(), price, finalPrice, discountPct, inStock
+                item.currentStock(), item.status(), price, finalPrice, discountPct, inStock,
+                item.imageUrl()
         );
     }
 }

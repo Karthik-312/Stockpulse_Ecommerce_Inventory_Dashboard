@@ -16,6 +16,7 @@ export default function ProductDetailPage() {
   const [quantity, setQuantity] = useState(1)
   const [loading, setLoading] = useState(true)
   const [adding, setAdding] = useState(false)
+  const [imageBroken, setImageBroken] = useState(false)
 
   useEffect(() => {
     productApi
@@ -50,6 +51,7 @@ export default function ProductDetailPage() {
   }
 
   const gradient = getCategoryGradient(product.category)
+  const showImage = Boolean(product.imageUrl) && !imageBroken
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-200">
@@ -65,9 +67,20 @@ export default function ProductDetailPage() {
         <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 overflow-hidden transition-colors duration-200">
           <div className="grid md:grid-cols-2">
             <div
-              className={`h-72 md:h-full min-h-[360px] bg-gradient-to-br ${gradient} flex items-center justify-center`}
+              className={`h-72 md:h-full min-h-[360px] flex items-center justify-center ${
+                showImage ? 'bg-white dark:bg-gray-800' : `bg-gradient-to-br ${gradient}`
+              }`}
             >
-              <Package className="h-32 w-32 text-white/70" />
+              {showImage ? (
+                <img
+                  src={product.imageUrl!}
+                  alt={product.name}
+                  onError={() => setImageBroken(true)}
+                  className="h-full w-full object-contain p-6"
+                />
+              ) : (
+                <Package className="h-32 w-32 text-white/70" />
+              )}
             </div>
 
             <div className="p-8 md:p-12 flex flex-col justify-center">
