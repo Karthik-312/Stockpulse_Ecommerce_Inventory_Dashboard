@@ -12,5 +12,6 @@ public record ProductDTO(
     BigDecimal price,
     BigDecimal finalPrice,
     double discountPercentage,
-    boolean inStock
+    boolean inStock,
+    String imageUrl
 ) {}
