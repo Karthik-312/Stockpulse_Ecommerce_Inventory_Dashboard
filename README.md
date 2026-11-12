@@ -44,7 +44,7 @@ Customer-facing **storefront** that reads catalog, price, and stock from the **S
 | Layer | Technology |
 |-------|------------|
 | Storefront | React 19, TypeScript, Vite 6, Tailwind CSS 4, React Router, Axios |
-| Ecommerce API | Java, Spring Boot 3.3, Spring Security, Spring Data JPA, JWT |
+| Ecommerce API | Java 17, Spring Boot 3.3, Spring Security, Spring Data JPA, JWT (jjwt), Actuator |
 | Data | H2 (local) · PostgreSQL (prod) |
 | Inventory link | REST — `GET /api/inventory`, `POST .../adjust?delta=` |
 | Hosting | [Render](https://render.com) (`render.yaml`) · [Vercel](https://vercel.com) (`ecommerce-frontend/vercel.json`) |
@@ -66,7 +66,7 @@ Stockpulse-Ecommerce/
 
 ## Run locally
 
-Prerequisites: **JDK 19+**, **Node 18+**, and **StockPulse Inventory** on port **8080**.
+Prerequisites: **JDK 17+**, **Node 18+**, and **StockPulse Inventory** on port **8080**.
 
 ### 1. Inventory API
 
@@ -128,9 +128,20 @@ For local dev, rely on the Vite proxy to `localhost:9090`.
 
 ## Deploy your own
 
-1. **Inventory** — deploy [stockpulse-inventory](https://github.com/Karthik-312/smart-replenish-warehouse-dashboard) (or your fork); note API URL and API key.
+1. **Inventory** — deploy [StockPulse Inventory](https://github.com/Karthik-312/-Smart-Replenish-Warehouse-Dashboard) (or your fork); note API URL and API key.
 2. **Ecommerce API** — Render → **New Blueprint** → this repo → set `STOCKPULSE_API_KEY` and `CORS_ALLOWED_ORIGINS`.
 3. **Storefront** — Vercel → import repo → **Root Directory** `ecommerce-frontend` → update `vercel.json` rewrite destination to your Render ecommerce URL.
+
+## Storefront pages
+
+| Route | Page | Login required |
+|-------|------|----------------|
+| `/` | Home — catalog, search, categories | No |
+| `/products/:id` | Product detail | No |
+| `/login` · `/register` | Auth | No |
+| `/cart` | Cart | Yes |
+| `/checkout` | Checkout | Yes |
+| `/orders` | Order history | Yes |
 
 ## API endpoints
 
@@ -163,4 +174,5 @@ For local dev, rely on the Vite proxy to `localhost:9090`.
 
 ## Related
 
-- **Inventory dashboard & API:** [stockpulse-inventory](https://github.com/Karthik-312/smart-replenish-warehouse-dashboard) — manage SKUs, thresholds, and stock that appear in this store.
+- **Inventory dashboard & API:** [StockPulse Inventory](https://github.com/Karthik-312/-Smart-Replenish-Warehouse-Dashboard) — manage SKUs, thresholds, and stock that appear in this store.
+- **Health check:** `GET /actuator/health` on the ecommerce API (used by Render).
